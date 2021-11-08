@@ -236,12 +236,19 @@ namespace SWS
             actionLengths = new List<float>() {
                 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f
             };
+            UpdateAnimClipTimes();
             var randNum = UnityEngine.Random.Range(5, 10);
             var initialState = "walk";
+            speed = UnityEngine.Random.Range(0.8f, 1.2f);
+
+            if (randNum > 7) {
+                initialState = "run";
+                speed = UnityEngine.Random.Range(1.6f, 3f);
+            }
             m_Animator.SetTrigger(initialState);
             currentState = initialState;
             // randNum = UnityEngine.Random.Range(5, 10);
-            UpdateAnimClipTimes();
+
             // Debug.Log(actionLengths);
             if (onStart) {
                 Invoke("randomActions", randNum);
@@ -289,7 +296,7 @@ namespace SWS
             int r = UnityEngine.Random.Range(0, supportedActions.Count);
             m_Animator.SetTrigger(supportedActions[r]);
             var animLength = actionLengths[r];
-            var randNum = UnityEngine.Random.Range(5, 10);
+            var randNum = UnityEngine.Random.Range(5, 15);
             Debug.Log(supportedActions[r] + ": " + animLength);
             Pause(animLength + 1f);
             Invoke("ResetSpeed", animLength);
@@ -297,7 +304,7 @@ namespace SWS
         }
 
         void ResetSpeed() {
-            speed = originSpeed;
+            // speed = originSpeed;
             Resume();
         }
 
