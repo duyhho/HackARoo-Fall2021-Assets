@@ -11,7 +11,7 @@ using DG.Tweening;
 
 using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
-
+using System.Collections.Generic;
 
 namespace SWS
 {
@@ -20,6 +20,17 @@ namespace SWS
     /// <summary>
     public class splineMove : MonoBehaviour
     {
+        Animator m_Animator;
+        string currentState;
+        AnimatorClipInfo[] m_CurrentClipInfo;
+        List<string> supportedActions;
+        List<float> actionLengths;
+
+
+        float lastCheckTime = 0f;
+        Vector3 lastCheckPos;
+        float xSeconds = 5.0f;
+        float yMuch = 1.0f;
         /// <summary>
         /// Path component to use for movement.
         /// <summary>
@@ -28,12 +39,12 @@ namespace SWS
         /// <summary>
         /// Whether this object should start its movement at game launch.
         /// <summary>
-        public bool onStart = false;
+        public bool onStart = true;
 
         /// <summary>
         /// Whether this object should walk to the first waypoint or spawn there.
         /// <summary>
-        public bool moveToPath = false;
+        public bool moveToPath = true;
 
         /// <summary>
         /// reverse the movement direction on the path, typically used for "pingPong" behavior.
@@ -54,7 +65,7 @@ namespace SWS
         /// <summary>
         /// Option for closing the path on the "loop" looptype.
         /// <summary>
-        public bool closeLoop = false;
+        public bool closeLoop = true;
 
         /// <summary>
         /// Whether local positioning relative to path or object should be used when tweening this object.
@@ -90,7 +101,7 @@ namespace SWS
         /// <summary>
         /// Speed or time value depending on the selected TimeValue type.
         /// <summary>
-        public float speed = 5;
+        public float speed = 1;
 
         /// <summary>
         /// Custom curve when AnimationCurve has been selected as easeType.
@@ -100,7 +111,7 @@ namespace SWS
         /// <summary>
         /// Supported movement looptypes when moving on the path. 
         /// <summary>
-        public LoopType loopType = LoopType.none;
+        public LoopType loopType = LoopType.loop;
         public enum LoopType
         {
             none,
@@ -139,7 +150,7 @@ namespace SWS
         /// <summary>
         /// Option for locking a rotation axis with orientToPath enabled.
         /// <summary>
-        public DG.Tweening.AxisConstraint lockRotation = DG.Tweening.AxisConstraint.None;
+        public DG.Tweening.AxisConstraint lockRotation = DG.Tweening.AxisConstraint.Y;
 
         /// <summary>
         /// Whether to lerp this target from one waypoint rotation to the next,
@@ -209,8 +220,34 @@ namespace SWS
         //check for automatic initialization
         void Start()
         {
-            if (onStart)
+            m_Animator = gameObject.GetComponent<Animator>();
+
+            supportedActions = new List<string>() {
+            "laugh",
+            "scream",
+            "fall1",
+            "fall2",
+            "scream",
+            "jump",
+            "telloff",
+            "land",
+            "wave"
+            };
+            actionLengths = new List<float>() {
+                0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f
+            };
+            var randNum = UnityEngine.Random.Range(5, 10);
+            var initialState = "walk";
+            m_Animator.SetTrigger(initialState);
+            currentState = initialState;
+            // randNum = UnityEngine.Random.Range(5, 10);
+            UpdateAnimClipTimes();
+            // Debug.Log(actionLengths);
+            if (onStart) {
+                Invoke("randomActions", randNum);
                 StartMove();
+
+            }
         }
 
 
@@ -248,7 +285,43 @@ namespace SWS
             Stop();
             CreateTween();
         }
+        void randomActions() {
+            int r = UnityEngine.Random.Range(0, supportedActions.Count);
+            m_Animator.SetTrigger(supportedActions[r]);
+            var animLength = actionLengths[r];
+            var randNum = UnityEngine.Random.Range(5, 10);
+            Debug.Log(supportedActions[r] + ": " + animLength);
+            Pause(animLength + 1f);
+            Invoke("ResetSpeed", animLength);
+            Invoke("randomActions", randNum);
+        }
 
+        void ResetSpeed() {
+            speed = originSpeed;
+            Resume();
+        }
+
+        public void UpdateAnimClipTimes()
+        {
+            AnimationClip[] clips = m_Animator.runtimeAnimatorController.animationClips;
+            foreach(AnimationClip clip in clips)
+            {
+                var clipName = clip.name.ToLower();
+                // Debug.Log(clipName + ": " + clip.length);
+                int i=0;
+
+                foreach (string action in supportedActions) {
+                    if (clipName.Contains(action)) {
+                        Debug.Log(action + " " + clipName + " " + clip.length);
+
+                        // actionLengths.Add(clip.length);
+                        actionLengths[i] = clip.length;
+                    }
+
+                    i++;
+                }
+            }
+        }
 
         //initialize or update modified waypoint positions
         //fills array with original positions and adds custom height
