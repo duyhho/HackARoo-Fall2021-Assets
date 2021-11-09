@@ -297,7 +297,7 @@ namespace SWS
             m_Animator.SetTrigger(supportedActions[r]);
             var animLength = actionLengths[r];
             var randNum = UnityEngine.Random.Range(5, 15);
-            Debug.Log(supportedActions[r] + ": " + animLength);
+            // Debug.Log(supportedActions[r] + ": " + animLength);
             Pause(animLength + 1f);
             Invoke("ResetSpeed", animLength);
             Invoke("randomActions", randNum);
@@ -319,7 +319,7 @@ namespace SWS
 
                 foreach (string action in supportedActions) {
                     if (clipName.Contains(action)) {
-                        Debug.Log(action + " " + clipName + " " + clip.length);
+                        // Debug.Log(action + " " + clipName + " " + clip.length);
 
                         // actionLengths.Add(clip.length);
                         actionLengths[i] = clip.length;
