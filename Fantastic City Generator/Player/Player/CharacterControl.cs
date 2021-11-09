@@ -15,6 +15,7 @@ public class CharacterControl : MonoBehaviour
     public float vSpeed = 0f;
 
     public Transform TopView;
+    public Transform[] DroneViews;
     float xRotation = 0f;
     float yRotation = 0f;
     private Camera cam1;
@@ -26,6 +27,9 @@ public class CharacterControl : MonoBehaviour
     public float doubleTapTime = 1f;
     private float elapsedTime;
     private int pressCount;
+
+
+    Camera currentDroneView; 
     void Start()
     {
     
@@ -33,14 +37,19 @@ public class CharacterControl : MonoBehaviour
 
         charController = GetComponent<CharacterController>();
 
-        cam1 =  GameObject.Find("Camera").GetComponent<Camera>();
-        cam2 = GameObject.Find("Top Camera").GetComponent<Camera>();
+        cam1 =  transform.Find("Camera").GetComponent<Camera>();
+        cam2 = TopView.Find("Top Camera").GetComponent<Camera>();
 
         cam1.enabled = true;
         cam2.enabled = false;
         currentCam = cam1.transform;
-
-
+        
+        if (DroneViews.Length > 0) {
+           
+     
+            currentDroneView=  DroneViews[0].Find("Camera").GetComponent<Camera>();;
+            currentDroneView.enabled = false;
+        }
         Debug.Log(gravityValue);
     }
     
@@ -62,6 +71,28 @@ public class CharacterControl : MonoBehaviour
             //     speed = 0f;
             // }
         }
+
+        if (Input.GetKeyDown(KeyCode.P)) {
+           
+
+            currentDroneView.enabled = !currentDroneView.enabled;
+            Debug.Log(currentDroneView.enabled);
+            if (currentDroneView.enabled) {
+                cam1.enabled = false;
+                cam2.enabled = false;
+            }
+            else {
+                cam1.enabled = true;
+                cam2.enabled = false;
+            }
+                // xRotation = 0f;
+                // currentCam.localRotation = Quaternion.Euler(56.071f, 269.47f, -0.379f);
+            // if (cam1.enabled == false){
+            //     speed = 0f;
+            // }
+        }
+
+        
 
         CameraMovement();
 
@@ -264,6 +295,10 @@ public class CharacterControl : MonoBehaviour
 
 
 
+    }
+
+    void TrackDroneView() {
+        
     }
 
 }
