@@ -179,7 +179,7 @@ public class PersonDetector : MonoBehaviour
 
     }
     void AssignEmotion(GameObject go, string emotion) {
-        GameObject effectToAssign = new GameObject();
+        GameObject effectToAssign = null;
         if (!scannedPeople.ContainsKey(go.GetInstanceID())) {
             Debug.Log(go.name + " is " + emotion );
 
