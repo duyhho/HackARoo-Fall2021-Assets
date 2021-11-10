@@ -20,7 +20,7 @@ public class TrackClick : MonoBehaviour
         //     allPeopleImagesArray = allImages;
         // }
         popupWindow.SetActive(false);
-        Debug.Log(allPeopleImagesArray.Length);
+        // Debug.Log(allPeopleImagesArray.Length);
         avatar = popupWindow.transform.Find("RawImage").gameObject.GetComponent<RawImage>();
         rectTransform = popupWindow.transform.Find("RawImage").gameObject.GetComponent (typeof (RectTransform)) as RectTransform;
     }

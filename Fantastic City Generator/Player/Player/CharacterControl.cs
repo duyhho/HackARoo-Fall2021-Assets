@@ -50,7 +50,7 @@ public class CharacterControl : MonoBehaviour
             currentDroneView=  DroneViews[0].Find("Camera").GetComponent<Camera>();;
             currentDroneView.enabled = false;
         }
-        Debug.Log(gravityValue);
+        // Debug.Log(gravityValue);
     }
     
     void Update()

@@ -330,6 +330,7 @@ namespace SWS
             }
         }
 
+
         //initialize or update modified waypoint positions
         //fills array with original positions and adds custom height
         //check for message count and reinitialize if necessary
