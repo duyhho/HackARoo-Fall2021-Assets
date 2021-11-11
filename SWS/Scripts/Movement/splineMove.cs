@@ -44,7 +44,7 @@ namespace SWS
         /// <summary>
         /// Whether this object should walk to the first waypoint or spawn there.
         /// <summary>
-        public bool moveToPath = true;
+        public bool moveToPath = false;
 
         /// <summary>
         /// reverse the movement direction on the path, typically used for "pingPong" behavior.
@@ -268,6 +268,18 @@ namespace SWS
             {
                 Debug.LogWarning(gameObject.name + " has no path! Please set Path Container.");
                 return;
+            }
+            else {
+                var positionOffsetMax = 2f;
+                var randomScale = new Vector3(UnityEngine.Random.Range(0.93f, 1.07f), 1f, UnityEngine.Random.Range(0.93f, 1.07f));
+                var randomOffset = new Vector3(UnityEngine.Random.Range(-positionOffsetMax, positionOffsetMax), 0f, UnityEngine.Random.Range(-positionOffsetMax, positionOffsetMax));
+                GameObject duplicate = Instantiate(pathContainer.transform.gameObject);
+
+                duplicate.transform.localScale = randomScale;
+                duplicate.transform.position += randomOffset;
+                Debug.Log(duplicate.transform.localScale);
+                pathContainer = duplicate.GetComponent<PathManager>();
+
             }
 
             //get array with waypoint positions
