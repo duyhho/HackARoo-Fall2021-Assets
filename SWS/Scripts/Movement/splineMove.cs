@@ -32,6 +32,11 @@ namespace SWS
         float xSeconds = 5.0f;
         float yMuch = 1.0f;
         /// <summary>
+        /// Whether this object should start its movement at game launch.
+        /// <summary>
+        public GameObject wayPointManager;
+
+        /// <summary>
         /// Path component to use for movement.
         /// <summary>
         public PathManager pathContainer;
@@ -44,6 +49,8 @@ namespace SWS
         /// <summary>
         /// Whether this object should walk to the first waypoint or spawn there.
         /// <summary>
+        [HideInInspector]
+
         public bool moveToPath = false;
 
         /// <summary>

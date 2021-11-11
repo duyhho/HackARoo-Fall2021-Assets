@@ -63,7 +63,7 @@ public class PersonDetector : MonoBehaviour
             if (Physics.SphereCast(topOfPerson, thickness, left45 , out leftHit)) {
                 if (leftHit.collider.gameObject.layer == 6) {
                     var colliderName = leftHit.collider.gameObject.name;
-                    Debug.Log("left: " + colliderName);
+                    // Debug.Log("left: " + colliderName);
                     leftObject = colliderName;
                     currentTarget = leftHit.transform.gameObject;
                     // scannedPeople.Add(currentTarget.GetInstanceID(), currentTarget);
@@ -76,7 +76,7 @@ public class PersonDetector : MonoBehaviour
             if (Physics.SphereCast(topOfPerson, thickness, right45, out rightHit)) {
                 if (rightHit.collider.gameObject.layer == 6) {
                     var colliderName = rightHit.collider.gameObject.name;
-                    Debug.Log("right: " + rightHit.collider.gameObject.name);
+                    // Debug.Log("right: " + rightHit.collider.gameObject.name);
                     rightObject = colliderName;
                     currentTarget = rightHit.transform.gameObject;
                     // scannedPeople.Add(currentTarget.GetInstanceID(), currentTarget);
@@ -107,7 +107,7 @@ public class PersonDetector : MonoBehaviour
             if (Physics.SphereCast(centerOfPerson, thickness, lowerFrontDir, out frontHit)) {
                 if (frontHit.collider.gameObject.layer == 6) {
                     var colliderName = frontHit.collider.gameObject.name;
-                    Debug.Log("front: " + colliderName);
+                    // Debug.Log("front: " + colliderName);
                     frontObject = colliderName;
                     currentTarget = frontHit.transform.gameObject;
                     AssignRandomEmotion();
@@ -234,4 +234,32 @@ public class PersonDetector : MonoBehaviour
             Debug.Log(item.Key + ": " + item.Value);
         }
     }
+    // void UploadTexture(Texture2D tex)
+    // {
+    //     StartCoroutine(UploadTextureRoutine(tex));
+    // }
+
+    // private IEnumerator UploadTextureRoutine(Texture2D tex)
+    // {
+    //     var bytes = tex.EncodeToPNG();
+    //     var form = new WWWForm();
+    //     form.AddField("id", "Image01");
+    //     form.AddBinaryData("image", bytes, $"{tex.name}.png", "image/png");
+
+    //     using(var unityWebRequest = UnityWebRequest.Post("https://vision.googleapis.com/v1/images:annotate", form))
+    //     {
+    //         // unityWebRequest.SetRequestHeader("Authorization", "Token 555myToken555");
+
+    //         yield return unityWebRequest.SendWebRequest();
+
+    //         if (unityWebRequest.result != UnityWebRequest.Result.Success)
+    //         {
+    //             print($"Failed to upload {tex.name}: {unityWebRequest.result} - {unityWebRequest.error}");
+    //         }
+    //         else
+    //         {
+    //             print($"Finished Uploading {tex.name}");
+    //         }
+    //     }
+    // }
 }

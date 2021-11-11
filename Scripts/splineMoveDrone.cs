@@ -25,6 +25,7 @@ namespace SWS
         AnimatorClipInfo[] m_CurrentClipInfo;
         List<string> supportedActions;
         List<float> actionLengths;
+        // public GameObject wayPointManager;
 
 
         float lastCheckTime = 0f;
