@@ -110,6 +110,9 @@ public class TrackClick : MonoBehaviour
             randomEmotion = "sad";
         }
         else if (r == 2) {
+            randomEmotion = "angry";
+        }
+        else if (r == 3) {
             randomEmotion = "neutral";
         }
         AssignEmotion(currentTarget, randomEmotion);
@@ -126,9 +129,13 @@ public class TrackClick : MonoBehaviour
         else if (emotion.ToLower() == "sad") {
             effectToAssign = emotionEffects[1];
         }
-        else if (emotion.ToLower() == "neutral") {
+        else if (emotion.ToLower() == "angry") {
             effectToAssign = emotionEffects[2];
         }
+        else if (emotion.ToLower() == "neutral") {
+            effectToAssign = emotionEffects[3];
+        }
+        // effectToAssign = emotionEffects[1];
         if (currentEffect != null) {
             GameObject.Destroy(currentEffect);
             currentEffect = null;

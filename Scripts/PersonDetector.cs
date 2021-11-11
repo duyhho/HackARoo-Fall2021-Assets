@@ -175,6 +175,9 @@ public class PersonDetector : MonoBehaviour
             randomEmotion = "sad";
         }
         else if (r == 2) {
+            randomEmotion = "angry";
+        }
+        else if (r == 3) {
             randomEmotion = "neutral";
         }
         AssignEmotion(currentTarget, randomEmotion);
@@ -192,13 +195,17 @@ public class PersonDetector : MonoBehaviour
             else if (emotion.ToLower() == "sad") {
                 effectToAssign = emotionEffects[1];
             }
-            else if (emotion.ToLower() == "neutral") {
+            else if (emotion.ToLower() == "angry") {
                 effectToAssign = emotionEffects[2];
+            }
+            else if (emotion.ToLower() == "neutral") {
+                effectToAssign = emotionEffects[3];
             }
             // if (currentEffect != null) {
             //     GameObject.Destroy(currentEffect);
             //     currentEffect = null;
             // }
+            // effectToAssign = emotionEffects[2];
             currentEffect = (GameObject) GameObject.Instantiate(effectToAssign, go.transform.position + new Vector3(0f, 2f, 0f), Quaternion.identity);
             currentEffect.transform.parent = go.transform;
             scannedPeople.Add(currentTarget.GetInstanceID(), currentEffect);

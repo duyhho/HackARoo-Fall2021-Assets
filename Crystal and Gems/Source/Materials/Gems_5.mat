@@ -20,7 +20,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: 47a79bf138f182f45897fbade2962df8, type: 3}
+        m_Texture: {fileID: 2800000, guid: 17e638fcbaa417a4aae5173a29c20f4a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -40,7 +40,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Emission:
-        m_Texture: {fileID: 2800000, guid: a733574150fedec46a273f77fc672245, type: 3}
+        m_Texture: {fileID: 2800000, guid: 5b293919d279acd44a1644a7546fa116, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
@@ -52,11 +52,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MSA:
-        m_Texture: {fileID: 2800000, guid: 17ba45d19a08b4040951eedcb0463e7a, type: 3}
+        m_Texture: {fileID: 2800000, guid: 7d83e1274bc969244a9ae74586760105, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 209e491b14ea4e3438f47a83e99e30bf, type: 3}
+        m_Texture: {fileID: 2800000, guid: 17ba45d19a08b4040951eedcb0463e7a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -76,7 +76,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _RefractionNormal:
-        m_Texture: {fileID: 2800000, guid: b462c0488191a6044a5eed9d197ee561, type: 3}
+        m_Texture: {fileID: 2800000, guid: e81eac995827e534e97a211be86dc60c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _node_3209:
@@ -96,7 +96,7 @@ Material:
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _EmissionIntensity: 0.48
+    - _EmissionIntensity: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
@@ -122,7 +122,7 @@ Material:
     - _tint_int: 0
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Color_Edge: {r: 0.5514706, g: 0.5514706, b: 0.5514706, a: 1}
+    - _Color_Edge: {r: 0, g: 0.07667971, b: 1, a: 1}
     - _Color_Tint: {r: 1, g: 1, b: 1, a: 1}
     - _Color_copy: {r: 1, g: 0, b: 0, a: 1}
     - _Color_test: {r: 0.75, g: 0, b: 0, a: 1}
