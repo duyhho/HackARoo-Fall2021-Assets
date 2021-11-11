@@ -13,7 +13,7 @@ public class PersonDetector : MonoBehaviour
     Dictionary<int, GameObject> scannedPeople = new Dictionary<int, GameObject>();
     Dictionary<string, int> scanInfo = new Dictionary<string, int>();
     GameObject currentEffect = null;
-
+    public bool autoActivated = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -28,13 +28,16 @@ public class PersonDetector : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        DetectPerson();
-        if (Input.GetKeyDown(KeyCode.T)) {
+        if (autoActivated) {
+            DetectPerson();
+            if (Input.GetKeyDown(KeyCode.T)) {
             DeactivateEffects();
+            }
+            if (Input.GetKeyDown(KeyCode.Y)) {
+                ActivateEffects();
+            }
         }
-        if (Input.GetKeyDown(KeyCode.Y)) {
-            ActivateEffects();
-        }
+
     }
     void DetectPerson() {
             Vector3 topOfPerson = transform.position; //+ new Vector3(0f, m_Collider.height+ 0.25f, 0f)
