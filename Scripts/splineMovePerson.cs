@@ -261,7 +261,7 @@ namespace SWS
 
             //Random Path
             foreach (Transform path in wayPointManager.transform) {
-                Debug.Log(path.gameObject.name);
+                // Debug.Log(path.gameObject.name);
                 if (!path.gameObject.name.ToLower().Contains("drone"))
                     allPaths.Add(path);
             }
@@ -272,10 +272,10 @@ namespace SWS
 
             if (randNum > 5) {
                 reverse = true;
-                Debug.Log("Reversed!");
+                // Debug.Log("Reversed!");
 
             }
-            Debug.Log(randomChild.gameObject.name);
+            // Debug.Log(randomChild.gameObject.name);
             if (onStart) {
                 Invoke("randomActions", randNum);
                 StartMove();

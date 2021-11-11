@@ -15,7 +15,7 @@ public class CharacterControl : MonoBehaviour
     public float vSpeed = 0f;
 
     public Transform TopView;
-    public Transform[] DroneViews;
+    public Transform droneManager;
     float xRotation = 0f;
     float yRotation = 0f;
     private Camera cam1;
@@ -28,8 +28,9 @@ public class CharacterControl : MonoBehaviour
     private float elapsedTime;
     private int pressCount;
 
-
+    List<Camera> droneViews = new List<Camera>();
     Camera currentDroneView; 
+    int currentDroneIndex = 0;
     void Start()
     {
     
@@ -43,12 +44,15 @@ public class CharacterControl : MonoBehaviour
         cam1.enabled = true;
         cam2.enabled = false;
         currentCam = cam1.transform;
-        
-        if (DroneViews.Length > 0) {
-           
-     
-            currentDroneView=  DroneViews[0].Find("Camera").GetComponent<Camera>();;
-            currentDroneView.enabled = false;
+        foreach (Transform child in droneManager) {
+            Debug.Log(child.gameObject.name);
+            child.Find("Camera").GetComponent<Camera>().enabled = false;
+            Camera childCamera = child.Find("Camera").GetComponent<Camera>();
+            droneViews.Add(childCamera);
+        }
+        if (droneViews.Count > 0) {
+            currentDroneView=  droneViews[currentDroneIndex];
+            // currentDroneView.enabled = false;
         }
         // Debug.Log(gravityValue);
     }
@@ -85,6 +89,37 @@ public class CharacterControl : MonoBehaviour
                 cam1.enabled = true;
                 cam2.enabled = false;
             }
+                // xRotation = 0f;
+                // currentCam.localRotation = Quaternion.Euler(56.071f, 269.47f, -0.379f);
+            // if (cam1.enabled == false){
+            //     speed = 0f;
+            // }
+        }
+
+        if (Input.GetKeyDown(KeyCode.N)) {
+            if (currentDroneIndex + 1 >= droneViews.Count) {
+                currentDroneIndex = 0;
+            }
+            else {
+                currentDroneIndex += 1;
+            }
+            Debug.Log(currentDroneIndex);
+            Debug.Log(currentDroneView.enabled);
+
+            if (currentDroneView.enabled) {
+                currentDroneView.enabled = false;
+                currentDroneView = droneViews[currentDroneIndex];
+                currentDroneView.enabled = true;
+            }
+
+            // if (currentDroneView.enabled) {
+            //     cam1.enabled = false;
+            //     cam2.enabled = false;
+            // }
+            // else {
+            //     cam1.enabled = true;
+            //     cam2.enabled = false;
+            // }
                 // xRotation = 0f;
                 // currentCam.localRotation = Quaternion.Euler(56.071f, 269.47f, -0.379f);
             // if (cam1.enabled == false){
