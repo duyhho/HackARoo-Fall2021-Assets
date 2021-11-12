@@ -1,30 +1,78 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class StreetLightManagement : MonoBehaviour
 {
     [SerializeField] private GameObject spotLight;
 
     List<GameObject> allStreetLightObjects = new List<GameObject>();
     LightingManager lightingManager;
+    Dictionary<float, string> timeMap;
     float currentTimeOfDay;
+    string currentTimeString = "9:00 AM";
+    [SerializeField] Text clock;
     void Start() {
         // KillAllSpotLights();
         SpawnSpotLights();
         lightingManager = transform.gameObject.GetComponent<LightingManager>();
         currentTimeOfDay = 0f;  
+        
     }
     // Update is called once per frame
     void Update()
     {
         currentTimeOfDay = lightingManager.GetTimeOfDay();
+
         if (currentTimeOfDay < 10f || currentTimeOfDay >= 22f) {
             TurnOnStreetLights();
         }
         else {
             TurnOffStreetLights();
         }
+        convertTimeToString();
+
+        // 11 = 6am
+        // 14 = 9am
+        // 17 = 12pm
+        // 21 = 3pm
+        // 24 = 6pm
+        // 2 = 9pm
+        // 5 = 12am
+        // 8 = 3am
+
+
+
+    }
+
+    void convertTimeToString() {
+
+        if (currentTimeOfDay >= 24 || currentTimeOfDay < 2) {
+            currentTimeString = "6:00 PM";
+        }
+        else if (currentTimeOfDay >= 2 && currentTimeOfDay < 5) {
+            currentTimeString = "9:00 PM";
+        }
+        else if (currentTimeOfDay >= 5 && currentTimeOfDay < 8) {
+            currentTimeString = "12:00 AM";
+        }
+        else if (currentTimeOfDay >= 8 && currentTimeOfDay < 11) {
+            currentTimeString = "3:00 AM";
+        }
+        else if (currentTimeOfDay >= 11 && currentTimeOfDay < 14) {
+            currentTimeString = "6:00 AM";
+        }
+        else if (currentTimeOfDay >= 14 && currentTimeOfDay < 17) {
+            currentTimeString = "9:00 AM";
+        }
+        else if (currentTimeOfDay >= 17 && currentTimeOfDay < 20) {
+            currentTimeString = "12:00 PM";
+        }
+        else if (currentTimeOfDay >= 20 && currentTimeOfDay < 24) {
+            currentTimeString = "3:00 PM";
+        }
+        Debug.Log(currentTimeOfDay + ": " + currentTimeString);
+        clock.text = currentTimeString;
     }
     private void SpawnSpotLights() {
         var gameObjects = FindObjectsOfType(typeof(GameObject)) as GameObject[];

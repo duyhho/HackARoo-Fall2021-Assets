@@ -12,6 +12,20 @@ public class TrackClick : MonoBehaviour
     // public List<GameObject> allPeopleImages;
     public Texture2D[] allPeopleImagesArray;
     GameObject currentEffect = null;
+
+    [Serializable]
+    public class PredictionResult {
+        [JsonProperty(PropertyName = "Sentiment")]
+        public string sentiment;
+        [JsonProperty(PropertyName = "Age")]
+        public string age;
+        [JsonProperty(PropertyName = "Ethnicity")]
+        public string ethnicity;
+        [JsonProperty(PropertyName = "Destination_Classification")]
+        public string destinationClassification;
+        [JsonProperty(PropertyName = "Source")]
+        public string source;
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -23,8 +37,9 @@ public class TrackClick : MonoBehaviour
         // Debug.Log(allPeopleImagesArray.Length);
         avatar = popupWindow.transform.Find("RawImage").gameObject.GetComponent<RawImage>();
         rectTransform = popupWindow.transform.Find("RawImage").gameObject.GetComponent (typeof (RectTransform)) as RectTransform;
+        StartCoroutine(ProcessRequest("https://hackaroo.ngrok.io");
+        //Continue//
     }
-
     // Update is called once per frame
     void Update()
     {
@@ -69,11 +84,6 @@ public class TrackClick : MonoBehaviour
                 
         }
     }
-    // Texture2D[] LoadAllPeopleImages() {
-    //     Texture2D[] imgL = (Texture2D[]) Resources.LoadAll("person");
-    //     Debug.Log(imgL.Length);
-    //     return imgL;
-    // }
     Texture2D AssignPersonImage(string gender) {
         Texture2D imageToAssign = allPeopleImagesArray[Random.Range (0, allPeopleImagesArray.Length)];
         string[] imageInfo = imageToAssign.name.Split('_');
@@ -86,7 +96,6 @@ public class TrackClick : MonoBehaviour
             while (imageInfo[1] != "1" ) {
                 imageToAssign = allPeopleImagesArray[Random.Range(0, allPeopleImagesArray.Length)];
                 imageInfo = imageToAssign.name.Split('_');
-
             }  
         }
         else if (gender == "male") {
@@ -117,7 +126,6 @@ public class TrackClick : MonoBehaviour
         }
         AssignEmotion(currentTarget, randomEmotion);
         TurnOffPopup();
-
     }
     void AssignEmotion(GameObject go, string emotion) {
         GameObject effectToAssign = new GameObject();
@@ -156,6 +164,54 @@ public class TrackClick : MonoBehaviour
         if (popupWindow) 
         {
             popupWindow.SetActive(true);
+        }
+    }
+    public PredictionResult GetPredictionResult(string jsonResponse)
+    {
+        //Valid: "https://dl.dropbox.com/s/4z4bzprj1pud3tq/Assets.json?dl=0"
+        //Sample: https://dl.dropbox.com/s/fbh6jbyzrf86g0x/Assets-sample.json?dl=0
+
+        PredictionResult info = JsonConvert.DeserializeObject<TrafficInfo>(jsonResponse);
+        // Debug.Log(info.payload.scannedCount);
+        return info;
+    }
+    private IEnumerator ProcessRequest(string apiURL, string trafficURL)
+    {
+        using (UnityWebRequest request = UnityWebRequest.Get(trafficURL))
+        {
+            yield return request.SendWebRequest();
+
+            if (request.isNetworkError)
+            {
+                Debug.Log(request.error);
+            }
+            else
+            {
+                string jsonResponse = request.downloadHandler.text;
+                // Debug.Log(jsonResponse);
+                sentimentInfo = GetPredictionResult(jsonResponse);
+                Debug.Log(sentimentInfo.sentiment);
+                Debug.Log(sentimentInfo.gender);
+            }
+        }
+        using (UnityWebRequest request = UnityWebRequest.Get(apiURL))
+        {
+            yield return request.SendWebRequest();
+
+            if (request.isNetworkError)
+            {
+                Debug.Log(request.error);
+            }
+            else
+            {
+                string jsonResponse = request.downloadHandler.text;
+                cityInfo = GetBuildings(jsonResponse);
+                subnetGroups = GetSubnetGroups(cityInfo);
+                GenerateCustomStreets();
+                GenerateCustomBuildings();
+                GenerateUI();
+                coroutine = this.StartCoroutine(onCoroutine());
+            }
         }
     }
 }
