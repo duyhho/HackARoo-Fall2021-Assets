@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.Networking;
+using System;
+using Newtonsoft.Json;
 public class PersonDetector : MonoBehaviour
 {
     string leftObject;
@@ -14,6 +16,19 @@ public class PersonDetector : MonoBehaviour
     Dictionary<string, int> scanInfo = new Dictionary<string, int>();
     GameObject currentEffect = null;
     public bool autoActivated = false;
+
+    Texture2D currentImage;
+    [Serializable]
+    public class PredictionResult {
+        [JsonProperty(PropertyName = "Sentiment")]
+        public string sentiment;
+        [JsonProperty(PropertyName = "Age")]
+        public string age;
+        [JsonProperty(PropertyName = "Ethnicity")]
+        public string ethnicity;
+        [JsonProperty(PropertyName = "Gender")]
+        public string gender;
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -88,22 +103,6 @@ public class PersonDetector : MonoBehaviour
             }
             RaycastHit frontHit;
             var frontObject = "";
-            // if (Physics.Raycast(centerOfPerson, frontĐir, out frontHit, 30f)) {
-            //     if (frontHit.collider.gameObject.layer == 6) {
-            //         var colliderName = frontHit.collider.gameObject.name;
-            //         Debug.Log("front: " + colliderName);
-            //         frontObject = colliderName;
-            //         currentTarget = frontHit.transform.gameObject;
-            //         AssignRandomEmotion();
-            //         // scannedPeople.Add(currentTarget.GetInstanceID(), currentTarget);
-
-            //         // TurnRight();
-            //         // shouldCheckFront = false;
-            //         // Invoke("ResetFrontChecking", 2.0f);
-
-            //     }
-            // }
-
             if (Physics.SphereCast(centerOfPerson, thickness, lowerFrontDir, out frontHit)) {
                 if (frontHit.collider.gameObject.layer == 6) {
                     var colliderName = frontHit.collider.gameObject.name;
@@ -119,54 +118,12 @@ public class PersonDetector : MonoBehaviour
 
                 }
             }
-
-            // if (leftObject == rightObject) { //same on sidewalk, or road
-            //     if (currentState == "walk") {
-            //         m_Animator.ResetTrigger("turnRight_Walk");
-            //         m_Animator.ResetTrigger("turnLeft_Walk");
-            //         m_Animator.SetTrigger("walk");
-            //     }
-            //     else {
-            //         m_Animator.ResetTrigger("turnRight");
-            //         m_Animator.ResetTrigger("turnLeft");
-            //         m_Animator.SetTrigger("run");
-            //     }
-
-
-            // }
-            // else {
-            //     if (leftObject.Contains("Road")) { //should turn right
-            //        TurnRight();
-
-            //     }
-            //     else if (rightObject.Contains("Road")) {
-            //         Debug.Log("turning left");
-            //        TurnLeft();
-            //     }
-            // }
-
     }
-    // void CheckFront() {
-    //     Vector3 centerOfPerson = transform.position + new Vector3(0f, m_Collider.height*0.5f, 0f);
-    //     var frontĐir = transform.forward;
-    //     Debug.DrawRay(centerOfPerson, frontĐir, Color.green);
-
-    //     RaycastHit frontHit;
-    //     var frontObject = "";
-    //     if (Physics.Raycast(centerOfPerson, frontĐir, out frontHit, 3f)) {
-    //         if (frontHit.collider.gameObject.layer == 3) {
-    //             var colliderName = frontHit.collider.gameObject.name;
-    //             Debug.Log("front: " + colliderName);
-    //             frontObject = colliderName;
-    //             TurnRight();
-    //             shouldCheckFront = false;
-    //             Invoke("ResetFrontChecking", 2.0f);
-
-    //         }
-    //     }
-    // }
+    public void PredictEmotion() {
+        StartCoroutine(ProcessRequest("https://hackaroo.ngrok.io/uploader", currentImage));
+    }
     public void AssignRandomEmotion() {
-        int r = Random.Range(0, emotionEffects.Length);
+        int r = UnityEngine.Random.Range(0, emotionEffects.Length);
         string randomEmotion = "happy";
         if (r == 0) {
             randomEmotion = "happy";
@@ -241,32 +198,62 @@ public class PersonDetector : MonoBehaviour
             Debug.Log(item.Key + ": " + item.Value);
         }
     }
-    // void UploadTexture(Texture2D tex)
-    // {
-    //     StartCoroutine(UploadTextureRoutine(tex));
-    // }
+    public PredictionResult GetPredictionResult(string jsonResponse)
+    {
+        //Valid: "https://dl.dropbox.com/s/4z4bzprj1pud3tq/Assets.json?dl=0"
+        //Sample: https://dl.dropbox.com/s/fbh6jbyzrf86g0x/Assets-sample.json?dl=0
 
-    // private IEnumerator UploadTextureRoutine(Texture2D tex)
-    // {
-    //     var bytes = tex.EncodeToPNG();
-    //     var form = new WWWForm();
-    //     form.AddField("id", "Image01");
-    //     form.AddBinaryData("image", bytes, $"{tex.name}.png", "image/png");
+        PredictionResult info = JsonConvert.DeserializeObject<PredictionResult>(jsonResponse);
+        // Debug.Log(info.payload.scannedCount);
+        return info;
+    }
+    private IEnumerator ProcessRequest(string apiURL, Texture2D image)
+    {
 
-    //     using(var unityWebRequest = UnityWebRequest.Post("https://vision.googleapis.com/v1/images:annotate", form))
-    //     {
-    //         // unityWebRequest.SetRequestHeader("Authorization", "Token 555myToken555");
+			// texture2D.Apply(false); // Not required. Because we do not need to be uploaded it to GPU
+		Texture2D decompressed = DeCompress(image);
+        byte[] jpg = decompressed.EncodeToJPG();
+		List<IMultipartFormSection> formData = new List<IMultipartFormSection>();
+        // formData.Add(new MultipartFormDataSection("field1=foo&field2=bar"));
+        formData.Add(new MultipartFormFileSection("file", jpg, "upload.jpg" , "image/jpg"));
 
-    //         yield return unityWebRequest.SendWebRequest();
+        using (UnityWebRequest request = UnityWebRequest.Post(apiURL, formData))
+        {
+            yield return request.SendWebRequest();
 
-    //         if (unityWebRequest.result != UnityWebRequest.Result.Success)
-    //         {
-    //             print($"Failed to upload {tex.name}: {unityWebRequest.result} - {unityWebRequest.error}");
-    //         }
-    //         else
-    //         {
-    //             print($"Finished Uploading {tex.name}");
-    //         }
-    //     }
-    // }
+            if (request.result != UnityWebRequest.Result.Success)
+            {
+                Debug.Log(request.error);
+            }
+            else
+            {
+                string jsonResponse = request.downloadHandler.text;
+                Debug.Log(jsonResponse);
+                PredictionResult sentimentInfo = GetPredictionResult(jsonResponse);
+                // Debug.Log(sentimentInfo.sentiment);
+                // Debug.Log(sentimentInfo.gender);
+                AssignEmotion(currentTarget, sentimentInfo.sentiment);
+            }
+            // TurnOffPopup();
+        }
+    }
+    public Texture2D DeCompress(Texture2D source)
+    {
+        RenderTexture renderTex = RenderTexture.GetTemporary(
+                    source.width,
+                    source.height,
+                    0,
+                    RenderTextureFormat.Default,
+                    RenderTextureReadWrite.Linear);
+
+        Graphics.Blit(source, renderTex);
+        RenderTexture previous = RenderTexture.active;
+        RenderTexture.active = renderTex;
+        Texture2D readableText = new Texture2D(source.width, source.height);
+        readableText.ReadPixels(new Rect(0, 0, renderTex.width, renderTex.height), 0, 0);
+        readableText.Apply();
+        RenderTexture.active = previous;
+        RenderTexture.ReleaseTemporary(renderTex);
+        return readableText;
+    }
 }
