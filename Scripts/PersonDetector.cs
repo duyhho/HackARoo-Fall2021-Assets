@@ -36,7 +36,8 @@ public class PersonDetector : MonoBehaviour
         scanInfo = new Dictionary<string, int>(){
             {"happy", 0},
             {"sad", 0},
-            {"neutral", 0}
+            {"neutral", 0},
+            {"angry", 0}
         };
     }
 
