@@ -71,7 +71,7 @@ public class StreetLightManagement : MonoBehaviour
         else if (currentTimeOfDay >= 20 && currentTimeOfDay < 24) {
             currentTimeString = "3:00 PM";
         }
-        Debug.Log(currentTimeOfDay + ": " + currentTimeString);
+        // Debug.Log(currentTimeOfDay + ": " + currentTimeString);
         clock.text = currentTimeString;
     }
     private void SpawnSpotLights() {

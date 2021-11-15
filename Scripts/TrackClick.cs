@@ -15,6 +15,8 @@ public class TrackClick : MonoBehaviour
     RectTransform rectTransform;
     // public List<GameObject> allPeopleImages;
     public Texture2D[] allPeopleImagesArray;
+    [SerializeField]
+    Text[] likelihoodTexts;
     GameObject currentEffect = null;
 
     Texture2D currentImage;
@@ -28,6 +30,8 @@ public class TrackClick : MonoBehaviour
         public string ethnicity;
         [JsonProperty(PropertyName = "Gender")]
         public string gender;
+        [JsonProperty(PropertyName = "Age_Estimate")]
+        public int ageEstimate;
     }
     // Start is called before the first frame update
     void Start()
@@ -153,6 +157,7 @@ public class TrackClick : MonoBehaviour
         if (currentEffect != null) {
             GameObject.Destroy(currentEffect);
             currentEffect = null;
+            
         }
         currentEffect = (GameObject) GameObject.Instantiate(effectToAssign, go.transform.position + new Vector3(0f, 2f, 0f), Quaternion.identity);
         currentEffect.transform.parent = go.transform;
@@ -163,6 +168,8 @@ public class TrackClick : MonoBehaviour
     public void TurnOffPopup() {
         if (popupWindow) 
         {
+            ResetText();
+
             popupWindow.SetActive(false);
         }
     }
@@ -203,13 +210,54 @@ public class TrackClick : MonoBehaviour
             {
                 string jsonResponse = request.downloadHandler.text;
                 Debug.Log(jsonResponse);
-                PredictionResult sentimentInfo = GetPredictionResult(jsonResponse);
-                // Debug.Log(sentimentInfo.sentiment);
+                PredictionResult serverPredictionResult = GetPredictionResult(jsonResponse);
+                DisplayText(serverPredictionResult);
+
                 // Debug.Log(sentimentInfo.gender);
-                AssignEmotion(currentTarget, sentimentInfo.sentiment);
+                AssignEmotion(currentTarget, serverPredictionResult.sentiment);
             }
-            TurnOffPopup();
+            // TurnOffPopup();
         }
+    }
+    void DisplayText(PredictionResult result) {
+        likelihoodTexts[0].text = result.sentiment;
+        if (result.sentiment.ToLower() == "happy") {
+            likelihoodTexts[0].color = Color.green;
+        }
+        else if (result.sentiment.ToLower() == "sad") {
+            likelihoodTexts[0].color = Color.blue;
+        }
+        else if (result.sentiment.ToLower() == "angry") {
+            likelihoodTexts[0].color = Color.red;
+        }
+        else if (result.sentiment.ToLower() == "neutral") {
+            likelihoodTexts[0].color = new Color(135f/255f,206f/255f,235f/255f);
+            // likelihoodTexts[0].color = Color.Red;
+        }
+        likelihoodTexts[1].text = result.ageEstimate.ToString();
+        likelihoodTexts[2].text = result.gender;
+        if (result.gender.ToLower() == "female") {
+            likelihoodTexts[2].color = new Color(255f/255f,182f/255f,193f/255f);
+        }
+        else if (result.gender.ToLower() == "male") {
+            likelihoodTexts[2].color = Color.blue;
+        }
+        likelihoodTexts[3].text = result.ethnicity;
+
+    }
+    void ResetText(){
+        likelihoodTexts[0].text = "N/A";
+        likelihoodTexts[0].color = Color.black;
+
+        likelihoodTexts[1].text =  "N/A";
+        likelihoodTexts[1].color = Color.black;
+
+        likelihoodTexts[2].text =  "N/A";
+        likelihoodTexts[2].color = Color.black;
+
+        likelihoodTexts[3].text =  "N/A";
+        likelihoodTexts[3].color = Color.black;
+
     }
     public Texture2D DeCompress(Texture2D source)
     {
