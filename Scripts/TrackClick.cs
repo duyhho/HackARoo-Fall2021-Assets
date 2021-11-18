@@ -131,6 +131,8 @@ public class TrackClick : MonoBehaviour
             randomEmotion = "neutral";
         }
         AssignEmotion(currentTarget, randomEmotion);
+        // AssignEmotion(currentTarget, "happy");
+
         TurnOffPopup();
     }
 
@@ -215,6 +217,8 @@ public class TrackClick : MonoBehaviour
 
                 // Debug.Log(sentimentInfo.gender);
                 AssignEmotion(currentTarget, serverPredictionResult.sentiment);
+                // AssignEmotion(currentTarget, "sad");
+
             }
             // TurnOffPopup();
         }
