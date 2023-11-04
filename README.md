@@ -81,5 +81,4 @@ GitHub (VR Version): https://github.com/benamreview/HackARoo-Fall2021-VR-Assets
 
 GitHub (PC Version): https://github.com/benamreview/HackARoo-Fall2021-Assets
 
-
-
+PPT Slides (with demos): https://mailmissouri-my.sharepoint.com/:p:/g/personal/dhh3hb_umsystem_edu/ESgtQ36AxjpGjiy9yIZMPxEBW0nTIMS14dP1CtJY8M9EEA?e=Dresha
