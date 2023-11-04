@@ -68,6 +68,9 @@ Unity: PC version, Web, and VR
 
 ![image](https://github.com/duyhho/HackARoo-Fall2021-Assets/assets/17374092/025276fd-37d9-46d3-a97f-ffc50dece7d1)
 ![image](https://github.com/duyhho/HackARoo-Fall2021-Assets/assets/17374092/bff3fa1d-df55-466e-975f-fd3ffacb886b)
+![image](https://github.com/duyhho/HackARoo-Fall2021-Assets/assets/17374092/b8d8c83e-06e8-4f5a-983d-d981bb797dad)
+![gif1](https://github.com/duyhho/HackARoo-Fall2021-Assets/blob/main/Assets/Predict%20Woman.gif)
+![gif1](https://github.com/duyhho/HackARoo-Fall2021-Assets/blob/main/Assets/PredictMan.gif)
 
 # Video
 Video: https://youtu.be/wus7FLhRER4
