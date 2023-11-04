@@ -1,6 +1,28 @@
 # MetaLens
 “Metaverse”, a new form of social life via virtual reality, is a new ambitious vision set by Meta (formerly known as Facebook) that allows users to socialize in a virtual world. It is a groundbreaking concept in social networking in which we will perform many activities such as working, playing, studying, and interacting with each other in an immersive way. Thus, our project, MetaLens, plans to focus primarily on a vision in the future where daily lives are enhanced with technology and Artificial Intelligence (AI). Our lives will be surrounded by robots, drones, and other automatic systems that make our tasks a lot more convenient. Via AI, Deep Learning, Sentiment Analysis, and Object Recognition, MetaLens aims to help not only the citizens but also the government be aware of their citizen’s well-being and the city’s overall performance to derive appropriate solutions.
 # Datasets
+# Overview
+![image](https://github.com/duyhho/HackARoo-Fall2021-Assets/assets/17374092/02c3d75e-6fd4-425c-b27f-a628fc2fabc4)
+
+## Front End
+### Unity 3D: 
+- Leading platform for 2D and 3D game and application development
+- Realistic physics mechanism and interaction (collision, gravity, speed, acceleration, …)
+- High-quality rendering and graphics
+- Cross-platform compatibility (mobile, android, PC, web, HoloLens, Oculus Quest, Oculus Rift, Vive, SteamVR, and Valve)
+- Abundant assets (standard, free, and paid) from Unity and other third parties
+- Strong community support and maintenance
+### OpenXR
+- Cross-platform compatibility (Oculus Quest, Oculus Rift, Vive, SteamVR, and Valve).
+![image](https://github.com/duyhho/HackARoo-Fall2021-Assets/assets/17374092/f49d9ff4-d8c4-46c3-9f3b-13aaa3c132aa)
+## Backend
+- Python: best framework for data science and deep learning
+- Keras: one of the most popular frameworks for building DL models
+- Jupyter Notebook: interactive tool to work and share Python code efficiently
+- Ngrok: Convenient to quickly and effectively establish connection to front end.
+- Detectron2: object detection and segmentation library with pretrained models ready for transfer learning and finetuning.
+![image](https://github.com/duyhho/HackARoo-Fall2021-Assets/assets/17374092/398ddbfa-1c85-4b1e-87df-2879eb3358ab)
+
 
 ## UTK Face Dataset:
 
