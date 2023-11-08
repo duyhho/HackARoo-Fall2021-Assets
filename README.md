@@ -1,5 +1,6 @@
 # MetaLens
 Authors: **Duy Ho, Bhuvan Chennoju**
+![image](https://github.com/duyhho/HackARoo-Fall2021-Assets/assets/17374092/b8d8c83e-06e8-4f5a-983d-d981bb797dad)
 
 “Metaverse”, a new form of social life via virtual reality, is a new ambitious vision set by Meta (formerly known as Facebook) that allows users to socialize in a virtual world. It is a groundbreaking concept in social networking in which we will perform many activities such as working, playing, studying, and interacting with each other in an immersive way. Thus, our project, MetaLens, plans to focus primarily on a vision in the future where daily lives are enhanced with technology and Artificial Intelligence (AI). Our lives will be surrounded by robots, drones, and other automatic systems that make our tasks a lot more convenient. Via AI, Deep Learning, Sentiment Analysis, and Object Recognition, MetaLens aims to help not only the citizens but also the government be aware of their citizen’s well-being and the city’s overall performance to derive appropriate solutions.
 # Datasets
@@ -92,7 +93,6 @@ Unity: PC version, Web, and VR
 
 ![image](https://github.com/duyhho/HackARoo-Fall2021-Assets/assets/17374092/025276fd-37d9-46d3-a97f-ffc50dece7d1)
 ![image](https://github.com/duyhho/HackARoo-Fall2021-Assets/assets/17374092/bff3fa1d-df55-466e-975f-fd3ffacb886b)
-![image](https://github.com/duyhho/HackARoo-Fall2021-Assets/assets/17374092/b8d8c83e-06e8-4f5a-983d-d981bb797dad)
 ![gif1](https://github.com/duyhho/HackARoo-Fall2021-Assets/blob/main/Assets/Predict%20Woman.gif)
 ![gif1](https://github.com/duyhho/HackARoo-Fall2021-Assets/blob/main/Assets/PredictMan.gif)
 
